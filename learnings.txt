@@ -1,0 +1,6 @@
+-> for counting character's frequency:
+  string s;
+  vector<int> freq(26);
+  fn{ freq[s[i] - 'a']++}
+
+ -> we can compare two vectors directly, like pfreq = hfreq

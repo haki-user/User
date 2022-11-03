@@ -791,3 +791,465 @@ void soln(){
         sum+=a[sum-1];
     }
 
+// *****CF 131A cAPS lOCK*****
+    // bruteforce soln
+void soln(){
+    string s; cin>>s;
+    // cout<<(int)'l';
+    bool all = true;
+    bool cap = false;
+    if(s[1] < 'a') cap = true;
+    for(int i = 2; i<s.size(); i++){
+        if(cap){
+            if(s[i] >= 'a'){
+                all = false;
+                cout<<s;
+                return;
+            }
+        } else {
+            if(s[i] < 'a'){
+                all = false;
+                cout<<s;
+                return;
+            }
+        }
+    }
+    if(s[0]>='a' && s[1]<'a'){
+        s[0]-=32;
+        for(int i = 1; i<s.size(); i++){
+            s[i]+=32;
+        }
+    } else if(s[0]<'a' && s[1]<'a'){
+        for(int i = 0; i<s.size(); i++){
+            s[i]+=32;
+        }
+    } else {
+        cout<<s;
+        return;
+    }
+    cout<<s;
+    return;
+}
+
+ // *****CF 1139B - Chocolates*****
+// tags: good greedy tricky (not well defined question)
+void soln(){
+    ll n; cin>>n;
+    ll a[n]; fn{cin>>a[i];}
+
+    ll pmin = a[n-1];
+    ll max = a[n-1];
+    for (int i = n-2; i >= 0; i--)
+    {
+        pmin = min(pmin-1, a[i]);
+        if(pmin < 0) break;
+        max+=pmin;
+        // if(max<a[i]) max = a[i]; //*****for max increasing(not actually but satisfying this que's conditions) subarray sum
+    }
+    cout<<max;
+}
+
+// *****CF 1199A - City Day*****
+// tags: constraints are not well defined took 1 day to solve
+bool findy(ll a[], ll n, ll i, ll y){
+    ll pvt = a[i];
+    ll tmp = i;
+    for(int j = i+1; j<n && y>0; j++){
+        if(pvt > a[j]) return false;
+        y--;
+    }
+    cout<<tmp+1;
+    return true;
+}
+void soln(){
+    ll n,x,y; cin>>n>>x>>y;
+    ll a[n]; fn{cin>>a[i];}
+
+    for(int i = 0; i<n; i++){
+        bool flag = true;
+        ll pvt = a[i];
+        for(int j = i-1; j>=0 && x>0; j--){
+            if(pvt > a[j]){
+                flag = false;
+                break;
+            }
+            x--;
+        }
+        if(flag){
+            if(findy(a, n, i, y)) return;
+        }
+    }
+}
+
+// *****CF 1073A - Diverse Substring*****
+// tags: easy good-approach-in-editorial
+    // Notice that he string of two distinct letter is already diverse. 
+    // That implies that the answer is "NO" if and only if all the letters in the string are the same. 
+    // Otherwise you can check all pairs of adjacent letters in O(n).
+void soln(){
+    int n; cin>>n;
+    string s; cin>>s;
+    // vector<char> ans;
+    char temp = s[0];
+    // ans.push_back(s[0]);
+    
+    for(int i = 0; i<n; i++){
+        if(temp != s[i]){
+            cout<<"YES"<<endl;
+            cout<<temp<<s[i]<<endl;
+            return ;
+        } else {
+            temp = s[i];
+        }
+    }
+    cout<<"NO"<<endl;
+    return;
+}
+
+// *****CF 109A - Lucky Sum of Digits****
+// tags logical realisation took 1day brute force; Div1 A; Div2C
+void soln(){
+    int n; cin>>n;
+    int f = 0;
+    int s = n/7;
+    n %= 7;
+    if(n>0){
+        while(n > 0 && s>=0){
+            if(n%4 > 0){
+                s--;
+                f++;
+                n+=3;
+            } else {
+                f += n/4;
+                n%=4;
+            }
+            debug(n);debug(s);debug(f);edl;
+        }
+    }
+    if(s<0){
+        cout<<-1<<endl;
+        return;
+    }
+    for(int i = 0; i < f; ++i) cout<<4;
+    for(int i = 0; i < s; ++i) cout<<7;
+}
+// other's good aproach
+while(n>=0)
+{
+    if(n%7==0)
+    {
+        bsev=n/7;
+        n=0;
+        break;
+    }
+    bfr++;
+    n=n-4;
+}
+
+// *****CF 1244B - Rooms and Staircases*****
+// 1st time me ho gya good logical
+void soln(){
+    int n; cin>>n;
+    string s; cin>>s;
+    if(s[0] == 1 || s[n-1] == 1){
+        cout<<2*n<<endl;
+        return;
+    }
+    int fari = -1;
+    for(int i = 0; i<n; i++){
+        if(s[i] == '1'){
+            if(i<n/2) fari = max(fari, n-i);
+            else fari = max(fari, i+1);
+        }
+    }
+    cout<<(fari>0?2*fari:n);
+}
+
+
+// *****CF 1027A - Palindromic Twist*****
+// easy string 15ms 1sttry
+void soln(){
+    int n; cin>>n;
+    string s; cin>>s;
+
+    for(int i = 0; i<n; i++){
+        if(s[i] == s[n-1-i]) continue;
+        else if(abs(s[i]-s[n-i-1]) != 2){
+            cout<<"NO";
+            return;
+        }
+    }
+    cout<<"YES";
+}
+
+// *****CF 1278A - Shuffle Hashing*****
+// easy 1sttry realisation brute force
+  // editorial: can sort h but i think that won't work
+void soln(){
+    string p,h; cin>>p>>h;
+    int n = p.size();
+    if(n>h.size()){
+        cout<<"NO";
+        return;
+    }
+    int pfreq[300]={};
+
+    fn{ pfreq[p[i]]++; }
+
+    for(int j = 0; j<=(h.size()-n); j++){
+        int hfreq[300]={};
+        for(int i = 0; i<n; i++) hfreq[h[i+j]]++;
+            
+        int flag = true;
+        fn{
+            if(pfreq[h[i+j]] != hfreq[h[i+j]]){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            cout<<"YES";
+            return;
+        }
+    }
+    cout<<"NO";
+}
+
+// *****CF 1133A - Middle of the Contest*****
+// tags: strings implementation good time 1stattempaccepted
+// editorial: The second part is to obtain t1=h1⋅60+m1 and t2=h2⋅60+m2. Then let t3=t1+t22. It is the answer.
+//  We have to print h3=⌊t360⌋ and m3=t3%60, where ⌊ab⌋ is a divided by b rounding down and a%b is a modulo b.
+void soln(){
+    string a, b; cin>>a>>b;
+    int h1 = 10*(a[0]-48);
+    h1 += a[1]-48;
+    int m1 = 10*(a[3]-48);
+    m1 += a[4]-48;
+
+    int h2 = 10*(b[0]-48);
+    h2 += b[1]-48;
+    int m2 = 10*(b[3]-48);
+    m2 += b[4]-48;
+    
+
+    int dm = (m2-m1)/2;
+    int dh;
+    if((h2-h1)%2 == 0){
+        dh = (h2-h1)/2;
+    } else {
+        dh = (h2-h1)/2;
+        dm+=30;
+    }
+
+    if(dm >= 60){
+        dh++;
+        dm-=60;
+    }
+    if(dm>=0){
+        h1+=dh;
+        m1+=dm;
+        if(m1 >= 60){
+            h1++;
+            m1-=60;
+        }
+        cout<<((h1<10)?"0":"")<<h1<<":"<<((m1<10)?("0"):"")<<m1;
+    } else {
+        h2+=dh;
+        m2+=dm;
+        if(m2 >= 60){
+            h2++;
+            m2-=60;
+        }
+        cout<<((h2<10)?"0":"")<<h2<<":"<<((m2<10)?"0":"")<<m2;
+    }
+}
+
+
+// *****CF 507A - Amr and Music*****
+// tags: sorting greedy implementation 1sttry
+void soln(){
+    int n,k; cin>>n>>k;
+    vector<int> a(n, 0); fn{cin>>a[i];}
+    vector<int> min;
+    int idx;
+
+    for(int i = 0; i<n && k>0; i++){
+        bool flag = true;
+        for(int j = 0; j<n && k>0; j++){
+            if(a[j] == -1) continue;
+            if(flag){
+                idx = j;//idx ko 1st time inititalize karne ke liiye if(j==0) won't work
+                flag = false;
+            }
+            if(a[idx] > a[j]) idx = j;
+        }
+        k-=a[idx];
+        if(k < 0) break;
+        min.push_back(idx);
+        a[idx] = -1;
+    }
+    cout<<min.size()<<endl;
+    for(auto e:min) if(e != -1) cout<<e+1<<" ";
+}
+// editorial good implementation with pair and vectors sorting
+pair<int,int> A[105];
+vector<int> ans;
+ 
+int main()
+{
+    int n,days;
+    cin >> n >> days;
+    for(int i=0;i<n;i++)
+        scanf("%d",&A[i].first),A[i].second = i;
+    sort(A,A+n);
+    for(int i=0;i<n;i++)
+    {
+        if(days < A[i].first)
+            break;
+        ans.push_back(A[i].second + 1);
+        days-=A[i].first;
+    }
+    sort(ans.begin(), ans.end());
+    cout << ans.size() << endl;
+    for(int i=0;i<ans.size();i++)
+    {
+        if(i) printf(" ");
+        printf("%d",ans[i]);
+    }
+    return 0;
+}
+
+
+// *****CF 1237A - Balanced Rating Changes*****
+// easy logical realisation implementation greedy float decimal digit extraction
+// editorial: Let bi=ai2+δi. It follows that if ai is even, then δi=0, and if ai is odd, then either δi=12 or δi=−12.
+// later improved it from abouve:
+void soln(){
+    int n; cin>>n;
+    vector<int> a(n); fn{cin>>a[i];}
+    float num;
+    bool flag = 1;
+    fn{
+        num = a[i]/(float)2;
+        float ld = (int)(num*10)%10;
+
+        if(ld == 5 || ld == -5){
+            if(flag) a[i] = ceil(num);
+            else a[i] = floor(num);
+            flag ^= true;
+        }
+        else if(ld > 5) a[i] = ceil(num);
+        else a[i] = floor(num);
+    }
+    for(int i = 0; i<n; i++) cout<<a[i]<<" ";
+}
+// editorial: good intuition based soln, indeed better version
+// At the same time, the sum of bi is equal to the sum of δi, as the sum of ai is 0. Thus, as the sum of bi must be equal to 0, we need to have an equal number of δi equal to 12 and −12.
+// In simple words, we have to divide all numbers by 2, and out of all non-integers, exactly half of them must be rounded up and the other half must be rounded down.
+// soln by tourist:
+  int flag = 1;
+  for (int i = 0; i < n; i++) {
+    int x;
+    cin >> x;
+    if (x % 2 == 0) {
+      cout << x / 2 << '\n';
+    } else {
+      cout << (x + flag) / 2 << '\n';
+      flag *= -1;
+    }
+  }
+
+
+//*****CF 486B - OR in Matrix*****
+ //tags: good took 1 day solved by kinda bruteforce 
+int m,n;
+int a[100][100];
+bool check(int r, int c){
+    bool ck = false;
+    for(int i = 0; i<n; i++){
+        if(a[r][i] != 1){
+            ck = true;
+            break;
+        }
+    }
+    if(!ck) return true;
+    for(int i = 0; i<m; i++){
+        if(a[i][c] != 1) return false;
+    }
+    return true;
+}
+void soln(){
+    
+    cin>>m>>n;
+    bool allz = true;
+    for (int i = 0; i < m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cin>>a[i][j];
+            if(a[i][j] == 1) allz = false;
+        }
+    }
+    for(int i = 0; i<m; i++){
+        for(int j = 0; j<n; j++){
+            if(a[i][j] == 1){
+                if(!check(i, j)){
+                    cout<<"NO";
+                    return;
+                }
+            }
+        }
+    }
+    vector<int> row;
+    vector<int> col;
+    int prevj = 0;
+    int ct = 0;
+    for (int i = 0; i < m; ++i)
+    {
+        bool flag = true;
+        for(int j = 0; j<n; j++){
+            // if(flag && a[i][j]==1) prevj=j;
+            if(a[i][j]==1)ct++;
+            if(a[i][j] != 1){
+                flag = false;
+                
+            }
+        }
+        // if(a[i][prev])
+        if(flag) row.push_back(i);
+    }
+    if(row.size() == 0 && !allz){
+        cout<<"NO";
+        return;
+    }
+    for(int i = 0; i<n; i++){
+        bool flag = true;
+        for(int j = 0; j<m; j++){
+            if(a[j][i] != 1){
+                flag = false;
+                break;
+            }
+        }
+        if(flag) col.push_back(i);
+    }
+    if(col.size() == 0 && !allz){
+        cout<<"NO";
+        return;
+    }
+    cout<<"YES"<<endl;
+    int ans[m][n]={};
+    debug(row);debug(col);edl;
+    for(int i = 0; i<row.size(); i++){
+        for(int j = 0; j<col.size(); j++){
+            ans[row[i]][col[j]] = 1;
+        }
+    }
+    for (int i = 0; i < m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cout<<ans[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}

@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
 #define ll long long
@@ -15,18 +16,27 @@ template<class T> void _print(T x) {cerr<<x<<" ";}
 template<class T> void _print(vector<T> v){cerr<<"[ ";for(T e:v) _print(e);cerr<<"]"<<endl;}
 // template<class T> void _print(T a[]){cerr<<"[";for(int i=0;i<9;i++){_print(a[i]);}cerr<<"]"<<endl;}
 
+// ll n;
+
+// inline bool read() {
+// 	if(!(cin>>n))
+// 		return false;
+// 	return true;
+// }
+// -----------------------------------
+
 void soln(){
-	int n,t; cin>>n>>t;
-	int idx[n]={};
-	idx[1] = 1;
-	for(int i = 1; i<n; i++){
-		int a; cin>>a;
-		if(idx[i] > 0) idx[i+a]++;
+	ll n, m, a; cin>>n>>m>>a;
+	if(n==m && n<=a){
+		cout<<1;
+		return;
 	}
-	cout<<(idx[t]>0?"YES":"NO");
+	ll ans = min(((ll)ceil(n/(float)a)*(m/a)), ((ll)ceil(m/(float)a))*(n/a));
+	// ans = 
+	cout<<((ans<1)?1:ans);
 }
 
-
+// ------------------------------------
 int main(){
 
 #ifndef ONLINE_JUDGE
@@ -34,15 +44,15 @@ int main(){
 #endif
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	cout.tie(NULL);
-
-	int t=1;
-	while(t--){
-		soln();
-		if(t>0) cout<<endl;
-	}
-
-	// soln();
+	int t = 1;
+	// while(read()){
+	// 	debug(t);edl;
+	// 	soln();
+	// 	cout<<endl;
+	// 	t++;
+	// }
+	soln();
+	cout<<endl;
 
 	return 0;
 }
